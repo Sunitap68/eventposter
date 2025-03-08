@@ -1,223 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload & Crop Image in Frame</title>
-
-    <!-- Cropper.js Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        h2 {
-            margin: 20px 0;
-            font-size: 22px;
-            color: #333;
-        }
-
-        /* Styled Button */
-        .btn {
-            display: inline-block;
-            padding: 12px 18px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 80%;
-            max-width: 300px;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Modal Popup */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 95%;
-            max-width: 350px;
-        }
-
-        #cropper-container {
-            width: 100%;
-            max-width: 300px;
-            height: 300px;
-            overflow: hidden;
-            margin: 0 auto;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-        }
-
-        canvas {
-            margin-top: 15px;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 350px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        img {
-            max-width: 100%;
-        }
-
-        .btn-secondary {
-            background-color: #dc3545;
-        }
-
-        .btn-secondary:hover {
-            background-color: #a71d2a;
-        }
-    </style>
-</head>
-<body>
-
-    <h2>Choose Your Photo for the Frame</h2>
-    
-    <button id="openModalButton" class="btn">Choose Your Photo</button><br><br>
-
-    <!-- Frame Always Visible -->
-    <canvas id="canvas"></canvas><br><br>
-    <button onclick="downloadImage()" class="btn">Save & Share</button>
-
-    <!-- Popup Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
+   <head>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-444MM41G8V"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         
+         gtag('config', 'G-444MM41G8V');
+      </script>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Upload & Crop Image in Frame</title>
+      <!-- Cropper.js Styles -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+      <style>
+         * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         }
+         body {
+         text-align: center;
+         font-family: Arial, sans-serif;
+         background-color: #f8f9fa;
+         }
+         h2 {
+         margin: 20px 0;
+         font-size: 22px;
+         color: #333;
+         }
+         /* Styled Button */
+         .btn {
+         display: inline-block;
+         padding: 12px 18px;
+         font-size: 16px;
+         color: #fff;
+         background-color: #007bff;
+         border: none;
+         border-radius: 8px;
+         cursor: pointer;
+         transition: 0.3s;
+         width: 80%;
+         max-width: 300px;
+         }
+         .btn:hover {
+         background-color: #0056b3;
+         }
+         /* Modal Popup */
+         .modal {
+         display: none;
+         position: fixed;
+         z-index: 10;
+         left: 0;
+         top: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.6);
+         justify-content: center;
+         align-items: center;
+         padding: 10px;
+         }
+         .modal-content {
+         background-color: white;
+         padding: 15px;
+         border-radius: 10px;
+         text-align: center;
+         width: 95%;
+         max-width: 350px;
+         }
+         #cropper-container {
+         width: 100%;
+         max-width: 300px;
+         height: 300px;
+         overflow: hidden;
+         margin: 0 auto;
+         border: 2px solid #ddd;
+         border-radius: 10px;
+         }
+         canvas {
+         margin-top: 15px;
+         border-radius: 10px;
+         width: 100%;
+         max-width: 350px;
+         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         }
+         img {
+         max-width: 100%;
+         }
+         .btn-secondary {
+         background-color: #dc3545;
+         }
+         .btn-secondary:hover {
+         background-color: #a71d2a;
+         }
+      </style>
+   </head>
+   <body>
+      <h2>Choose Your Photo for the Frame</h2>
+      <button id="openModalButton" class="btn">Choose Your Photo</button><br><br>
+      <!-- Frame Always Visible -->
+      <canvas id="canvas"></canvas>
+      <br><br>
+      <button onclick="downloadImage()" class="btn">Save & Share</button>
+      <!-- Popup Modal -->
+      <div id="modal" class="modal">
+         <div class="modal-content">
             <h3>Adjust Your Photo</h3>
             <input type="file" id="uploadImage" accept="image/*"><br><br>
             <div id="cropper-container">
-                <img id="imagePreview" style="display: none;">
+               <img id="imagePreview" style="display: none;">
             </div>
             <button id="cropButton" class="btn" style="display: none;">Use This Photo</button>
             <button id="closeModal" class="btn btn-secondary">Cancel</button>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-    <script>
-        const frameSrc = "event.png";  // Your frame image
-        const canvas = document.getElementById("canvas");
-        const ctx = canvas.getContext("2d");
-        let cropper;
-
-        // Load the frame image first and always display it
-        const frameImage = new Image();
-        frameImage.src = frameSrc;
-
-        frameImage.onload = function() {
-            canvas.width = frameImage.width;
-            canvas.height = frameImage.height;
-            ctx.drawImage(frameImage, 0, 0);
-        };
-
-        // Modal control
-        const modal = document.getElementById("modal");
-        const openModalButton = document.getElementById("openModalButton");
-        const closeModalButton = document.getElementById("closeModal");
-
-        openModalButton.addEventListener("click", () => {
-            modal.style.display = "flex";
-        });
-
-        closeModalButton.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-
-        // Upload and Crop
-        document.getElementById("uploadImage").addEventListener("change", function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imagePreview = document.getElementById("imagePreview");
-                imagePreview.src = e.target.result;
-                imagePreview.style.display = "block";
-
-                // Destroy previous cropper instance if exists
-                if (cropper) cropper.destroy();
-
-                // Initialize Cropper.js
-                cropper = new Cropper(imagePreview, {
-                    aspectRatio: 1,
-                    viewMode: 2,
-                    autoCropArea: 1,
-                    movable: true,
-                    zoomable: true,
-                    rotatable: true,
-                    scalable: true
-                });
-
-                document.getElementById("cropButton").style.display = "block";
-            };
-            reader.readAsDataURL(file);
-        });
-
-        document.getElementById("cropButton").addEventListener("click", function() {
-            const croppedCanvas = cropper.getCroppedCanvas({
-                width: 210,
-                height: 210
-            });
-
-            const userImage = new Image();
-            userImage.src = croppedCanvas.toDataURL();
-
-            userImage.onload = function() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Draw frame first
-                ctx.drawImage(frameImage, 0, 0);
-
-                // Draw cropped image inside the circular cutout
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(438, 485, 105, 0, Math.PI * 2, true); // Adjusted for 211px size
-                ctx.clip();
-                ctx.drawImage(userImage, 332, 380, 220, 220); // Placing at correct position
-                ctx.restore();
-
-                // Close modal
-                modal.style.display = "none";
-            };
-        });
-
-        function downloadImage() {
-            const link = document.createElement("a");
-            link.download = "eventPost.png";
-            link.href = canvas.toDataURL();
-            link.click();
-        }
-    </script>
-
-</body>
+         </div>
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+      <script>
+         const frameSrc = "event.png";  // Your frame image
+         const canvas = document.getElementById("canvas");
+         const ctx = canvas.getContext("2d");
+         let cropper;
+         
+         // Load the frame image first and always display it
+         const frameImage = new Image();
+         frameImage.src = frameSrc;
+         
+         frameImage.onload = function() {
+             canvas.width = frameImage.width;
+             canvas.height = frameImage.height;
+             ctx.drawImage(frameImage, 0, 0);
+         };
+         
+         // Modal control
+         const modal = document.getElementById("modal");
+         const openModalButton = document.getElementById("openModalButton");
+         const closeModalButton = document.getElementById("closeModal");
+         
+         openModalButton.addEventListener("click", () => {
+             modal.style.display = "flex";
+         });
+         
+         closeModalButton.addEventListener("click", () => {
+             modal.style.display = "none";
+         });
+         
+         // Upload and Crop
+         document.getElementById("uploadImage").addEventListener("change", function(event) {
+             const file = event.target.files[0];
+             if (!file) return;
+         
+             const reader = new FileReader();
+             reader.onload = function(e) {
+                 const imagePreview = document.getElementById("imagePreview");
+                 imagePreview.src = e.target.result;
+                 imagePreview.style.display = "block";
+         
+                 // Destroy previous cropper instance if exists
+                 if (cropper) cropper.destroy();
+         
+                 // Initialize Cropper.js
+                 cropper = new Cropper(imagePreview, {
+                     aspectRatio: 1,
+                     viewMode: 2,
+                     autoCropArea: 1,
+                     movable: true,
+                     zoomable: true,
+                     rotatable: true,
+                     scalable: true
+                 });
+         
+                 document.getElementById("cropButton").style.display = "block";
+             };
+             reader.readAsDataURL(file);
+         });
+         
+         document.getElementById("cropButton").addEventListener("click", function() {
+             const croppedCanvas = cropper.getCroppedCanvas({
+                 width: 210,
+                 height: 210
+             });
+         
+             const userImage = new Image();
+             userImage.src = croppedCanvas.toDataURL();
+         
+             userImage.onload = function() {
+                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+         
+                 // Draw frame first
+                 ctx.drawImage(frameImage, 0, 0);
+         
+                 // Draw cropped image inside the circular cutout
+                 ctx.save();
+                 ctx.beginPath();
+                 ctx.arc(438, 485, 105, 0, Math.PI * 2, true); // Adjusted for 211px size
+                 ctx.clip();
+                 ctx.drawImage(userImage, 332, 380, 220, 220); // Placing at correct position
+                 ctx.restore();
+         
+                 // Close modal
+                 modal.style.display = "none";
+             };
+         });
+         
+         function downloadImage() {
+             const link = document.createElement("a");
+             link.download = "eventPost.png";
+             link.href = canvas.toDataURL();
+             link.click();
+         }
+      </script>
+   </body>
 </html>
